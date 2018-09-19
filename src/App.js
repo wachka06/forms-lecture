@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
+import TodoList from './TodoList';
+import TodoForm from './TodoForm'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      loggerText: 'bye'
+      todoList: ['Study', 'Eat', 'Catch mons', 'Plank'],
+      todoInput: ''
     }
+  }
+  
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.setState(prevState => {
+
+      return { 
+        todoList: [...prevState.todoList, this.state.todoInput],
+        todoInput: ''
+       }
+    })
   }
 
   handleInput = (event) => {
-    this.setState({
-      loggerText: event.target.value
-    })
+    this.setState({ todoInput: event.target.value })
   }
 
   render() {
     return (
       <div>
-        <input
-          value={this.state.loggerText}
-          onChange={this.handleInput} 
-          type="text" />
-        <p>{this.state.loggerText}</p>
+        <TodoForm
+          todoInput={this.state.todoInput}
+          handleSubmit={this.handleSubmit}
+          handleInput={this.handleInput} />
+          
+        <TodoList todoList={this.state.todoList} />
       </div>
     )
   }
